@@ -1,0 +1,68 @@
+apiVersion: apps.3scale.net/v1alpha1
+kind: APIManager
+metadata:
+  annotations:
+    apps.3scale.net/apimanager-threescale-version: '2.12'
+    apps.3scale.net/threescale-operator-version: 0.9.0
+  name: 3scale-amp
+  namespace: threescale
+spec:
+  imageStreamTagImportInsecure: false
+  resourceRequirementsEnabled: false
+  system:
+    appSpec:
+      replicas: 1
+    fileStorage:
+      simpleStorageService:
+        configurationSecretRef:
+          name: s3-auth
+    sidekiqSpec:
+      replicas: 1
+    sphinxSpec: {}
+  appLabel: 3scale-api-management
+  zync:
+    appSpec:
+      replicas: 1
+    queSpec:
+      replicas: 1
+  backend:
+    cronSpec:
+      replicas: 1
+    listenerSpec:
+      replicas: 1
+    workerSpec:
+      replicas: 1
+  tenantName: 3scale
+  apicast:
+    managementAPI: status
+    openSSLVerify: false
+    productionSpec:
+      replicas: 1
+    registryURL: 'http://apicast-staging:8090/policies'
+    responseCodes: true
+    stagingSpec:
+      replicas: 1
+  wildcardDomain: apps.cluster-kg2t9.kg2t9.sandbox1391.opentlc.com
+status:
+  conditions:
+    - lastTransitionTime: '2024-09-17T15:30:20Z'
+      status: 'True'
+      type: Available
+  deployments:
+    ready:
+      - apicast-production
+      - apicast-staging
+      - backend-cron
+      - backend-listener
+      - backend-redis
+      - backend-worker
+      - system-app
+      - system-memcache
+      - system-mysql
+      - system-redis
+      - system-sidekiq
+      - system-sphinx
+      - zync
+      - zync-database
+      - zync-que
+
