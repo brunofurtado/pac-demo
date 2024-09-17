@@ -1,0 +1,19 @@
+kind: CustomPolicyDefinition
+apiVersion: capabilities.3scale.net/v1beta1
+metadata:
+  name: custompolicydefinition-sample
+  namespace: threescale
+spec:
+  name: MyCustomPolicy
+  schema:
+    $schema: 'http://json-schema.org/draft-07/schema#'
+    configuration:
+      properties:
+        someAttr:
+          description: Some attribute
+          type: integer
+      type: object
+    name: MyCustomPolicy
+    summary: some summary
+    version: 0.0.1
+  version: 0.0.1
